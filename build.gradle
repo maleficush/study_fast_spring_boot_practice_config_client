@@ -1,0 +1,65 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.fast'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = "16"
+
+repositories {
+    mavenCentral()
+}
+
+ext{
+    // spring docker testcontainer 의존성 추가
+    set('testcontainersVersion', "1.16.2")
+
+    // spring-cloud-config-server 의존성 추가
+    set('springCloudVersion', "2020.0.3")
+}
+
+dependencies {
+    // spring-cloud-config-server 의존성 추가
+//    implementation 'org.springframework.cloud:spring-cloud-config-server'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    // Config-server의 값을 runtime에서 refresh하기 위해서 actuator 의존성 추가  
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+
+    // vault 의존성 추가
+//    implementation 'org.springframework.cloud:spring-cloud-vault-config:3.1.0'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.6.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.6.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.6.2'
+}
+
+dependencyManagement {
+    imports{
+        // spring-cloud-config-server 의존성 추가
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        // spring docker testcontainer 의존성 추가
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
+}
+
+compileJava{
+    inputs.files(processResources)
+}
+
+test {
+    useJUnitPlatform()
+}
+targetCompatibility = JavaVersion.VERSION_16

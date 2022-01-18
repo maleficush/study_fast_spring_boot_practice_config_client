@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "test.value",
+      "type": "java.lang.String",
+      "description": "Description for test.value."
+    }
+  ],
+  "hints": [
+    {
+      "name": "test.value",
+      "values": [
+        {
+          "value": 10,
+          "description": "작은키"
+        },
+        {
+          "value": 20,
+          "description": "중간키"
+        },
+        {
+          "value": 30,
+          "description": "큰키"
+        }
+      ]
+    }
+  ]
+}
